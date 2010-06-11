@@ -1,0 +1,532 @@
+/* CSS Document */
+
+.mail_con {
+	margin:5px 0px 0px 8px;
+	padding:0px;
+	padding-top:0px;
+	background-color:#fff;
+	height:auto;
+	width:700px;
+	border:1px solid #dfe4ee;
+	float:left;
+	overflow:hidden;
+}
+
+.inbox_content_middle {
+	width:750px;
+	height:auto;
+	border:1px solid #BCC5DA;
+	float:right;
+	overflow:hidden;
+	padding:0px 0px 0px 0px;
+	margin-right:10px;
+	_margin-right:05px;
+	vertical-align:top;
+}
+.mail_select {
+	background-color:#FBFCFD;
+	height:25px;
+	color:#424E64;
+	width:100%;
+	float:left;
+	_float:none;
+}
+.mail_select1 {
+	margin:0px 0px 0px 0px;
+	padding:0px 0px 0px 0px;
+	background-color:#F1F4F8;
+	height:25px;
+	width:100%;
+	float:left;
+	color:#334261;
+	border-bottom:1px solid #D8E0EB;
+}
+.mail_select ul {
+	margin:0px 0px 0px 10px;
+	padding:0px;
+	list-style:none;
+}
+.mail_select li {
+	margin:0px 0px 0px 0px;
+	padding:0px 0px 0px 0px;
+	border:0px solid #ccc;
+	list-style:none;
+	float:left;
+	line-height:24px;
+	font-size:12px;
+	font-weight:normal;
+	color:#c4c4c4;
+}
+.sele {
+	margin:0px 0px 0px 0px;
+	padding:0px 5px 0px 0px;
+	border:0px solid #333333;
+	list-style:none;
+	line-height:24px;
+	font-size:12px;
+	color:#666666;
+	text-decoration:none;
+	width:100%;
+}
+.mail_select a {
+	margin:0px 0px 0px 0px;
+	padding:0px 5px 0px 5px;
+	border:0px solid #333333;
+	list-style:none;
+	float:left;
+	line-height:24px;
+	font-weight:normal;
+	font-size:12px;
+	color:#666666;
+	text-decoration:none;
+	cursor:pointer;
+}
+.mail_select a:hover {
+	margin:0px 0px 0px 0px;
+	padding:0px 5px 0px 5px;
+	border:0px solid #333333;
+	list-style:none;
+	text-decoration:underline;
+	float:left;
+	line-height:24px;
+	font-size:12px;
+	color: #06324A;
+	font-weight:normal;
+	cursor:pointer;
+}
+.title_1 {
+	padding:0px 0px 0px 40px;
+	font-size:12px;
+	height:25px;
+	float:left;
+	font-weight:bold;
+	text-align:left;
+}
+
+.message_body {
+	margin:10px 0px 0px 30px;
+	padding:0px 0px 0px 20px;
+	float:left;
+}
+.message_content {
+	margin:10px 0px 0px 0px;
+	padding:0px 0px 0px 20px;
+	float:left;
+	border:0px solid #FFFFFF;
+	width:700px;
+	height:auto;
+}
+.name {
+	border:0px solid red;
+	color:#000066;
+	width:400px;
+	height:20px;
+	font-size:17px;
+}
+.title_2 {
+	padding:0px 0px 0px 38px;
+	line-height:23px;
+	height:25px;
+	width:300px;
+	float:left;
+	text-align:left;
+	font-weight:bold;
+	font-size:12px;
+	overflow:hidden;
+}
+.title_3 {
+	line-height:23px;
+	font-size:12px;
+	height:25px;
+	width:80px;
+	float:right;
+	font-weight:bold;
+}
+.inner_mail_unread {
+	width:100%;
+	height:auto;
+	float:left;
+	font-weight:bold;
+	overflow:hidden;
+	cursor:pointer;
+}
+.inner_mail {
+	width:100%;
+	height:auto;
+	cursor:pointer;
+	font-weight:normal;
+	border-right:0px solid #D2D2D2;
+	border-left:0px solid #D2D2D2;
+	border-top:1px solid #fff;
+	background:#EEF1F7;
+	float:left;
+	overflow:hidden;
+}
+.check {
+	padding:0px 0px 0px 5px;
+	margin:0px 0px 0px 0px;
+	float:left;
+	border-top:0px solid #fff;
+	overflow:hidden;
+	vertical-align:middle;
+	width:20px;
+}
+.mail_con_out {
+	width:720px;
+	height:auto;
+	border-top:0px solid #fff;
+	overflow:hidden;
+	border:0px solid red;
+	overflow:hidden;
+}
+.mail_con_read {
+	width:720px;
+	padding:0px 0px 0px 0px;
+	margin:0px 0px 0px 0px;
+	height:auto;
+	float:right;
+	border:0px solid #00FF00;
+	overflow:hidden;
+}
+.content_heading {
+	width:100%;
+	background-color:#BCC5DA;
+	height:30px;
+	margin:0px 0px 0px 0px;
+	padding:0px 0px 0px 15px;
+	font-size:15px;
+	font-weight:bold;
+	text-align:left;
+	line-height:28px;
+}
+.deleteout {
+	width:60px;
+	height:20px;
+	border:0px solid red;
+	padding:0px 0px 0px 0px;
+	margin:8px 0px 0px 0px;
+	overflow:hidden;
+	outline:none;
+	float:right;
+	text-align:center;
+	font-weight:bold;
+	color:#000000;
+	line-height:18px;
+}
+.f_t {
+	width:275px;
+	padding:0px 0px 0px 0px;
+	margin:0px 0px 0px 0px;
+	height:auto;
+	float:left;
+	overflow:hidden;
+	border:0px solid #D2D2D2;
+	cursor:pointer;
+}
+ul li a:hover {
+}
+.s_d {
+	width:350px;
+	padding:0px 0px 0px 0px;
+	margin:0px 0px 0px 0px;
+	height:auto;
+	float:left;
+	overflow:hidden;
+	border:px solid #D2D2D2;
+}
+.d_t {
+	width:80px;
+	padding:0px 0px 0px 0px;
+	margin:0px 0px 0px 0px;
+	height:auto;
+	overflow:hidden;
+	float:right;
+	border:0px solid #D2D2D2;
+}
+/*--compose start--*/
+.name_lable {
+	padding:0px 0px 0px 0px;
+	margin:0px 0px 0px 0px;
+	width:60px;
+	float:left;
+	border:0px solid #D2D2D2;
+	font-weight:bold;
+}
+.from_out {
+	padding:0px 0px 0px 0px;
+	margin:15px 15px 0px 15px;
+	width:650px;
+	height:auto;
+	overflow: visible;
+	border:0px solid red;
+	font-weight:bold;
+}
+.tex_box {
+	padding:0px 0px 0px 0px;
+	margin:0px 0px 0px  0px;
+	width:300px;
+	height:20px;
+	font-size:12px;
+	overflow:hidden;
+	float:left;
+}
+.meass_text {
+	padding:0px 0px 0px 0px;
+	margin:0px 0px 0px 23px;
+	width:450px;
+	height:400px;
+	font-size:12px;
+	overflow: scroll;
+	float:left;
+}
+.t_editer {
+	border:0px solid red;
+	width:560px;
+	overflow:hidden;
+	height:auto;
+	margin:0px 0px 0px 70px;
+	padding:0px 0px 0px 0px;
+}
+.pagination {
+	width:745px;
+	height:25px;
+	overflow:hidden;
+	padding:0px 0px 0px 0px;
+	margin:0px 0px 0px 0px;
+	/*background-color:#D2D7E8;*/
+color:#666;
+	text-align:right;
+	font-weight:normal;
+	cursor: pointer;
+}
+.pagination a {
+	font-size:12px;
+	color: #07324A;
+	font-weight:bold;
+	text-decoration:underline;
+}
+.reply_con {
+	margin: 0px;
+	padding:0px;
+	padding-top:0px;
+	background-color:#fff;
+	height:auto;
+	float:left;
+	overflow:hidden;
+	width:100%;
+}
+.repy {
+	margin:0px 0px 10px 0px;
+	padding:0px 0px 0px 20px;
+	padding-top:0px;
+	background-color:#fff;
+	height:auto;
+	border:0px solid red;
+	float:left;
+	overflow:hidden;
+}
+.reply_top {
+	background-color:#BCC5DA;
+	border:0px solid red;
+	color:#424E64;
+	float:left;
+	margin-bottom:0px;
+	height:25px;
+	padding:0;
+	width:100%;
+}
+.inner_mail_empty {
+	width:100%;
+	height:50px;
+	overflow:hidden;
+	margin:0px 0px 0px 0px;
+	padding:30px 0px 0px 0px;
+	border-right:0px solid #D2D2D2;
+	border-left:1px solid #5AAAC9;
+	border:0px solid #5AAAC9;
+	background:#fff;
+	color:#07324A;
+	font-weight:bold;
+	text-align:center;
+}
+.reply_top ul {
+	margin:0px;
+	padding:0px;
+	list-style:none;
+}
+.reply_top li {
+	border:0 solid #CCCCCC;
+	color:#999;
+	float:left;
+	font-size:12px;
+	font-weight:bold;
+	line-height:24px;
+	list-style-image:none;
+	list-style-position:outside;
+	list-style-type:none;
+	margin:0;
+	padding:0 0 0 5px;
+}
+.reply_top a {
+	border:0 solid #333333;
+	color:#07324A;
+	cursor:pointer;
+	float:left;
+	font-size:12px;
+	font-weight:bold;
+	line-height:24px;
+	list-style-image:none;
+	list-style-position:outside;
+	list-style-type:none;
+	margin:0;
+	padding:0 5px;
+	text-decoration:none;
+}
+.reply_top a:hover {
+	border:0 solid #333333;
+	color:#666;
+	float:left;
+	font-size:12px;
+	font-weight:bold;
+	line-height:24px;
+	list-style-image:none;
+	list-style-position:outside;
+	list-style-type:none;
+	margin:0;
+	padding:0 5px;
+	text-decoration:underline;
+}
+.repy_form_out {
+	padding:10px 0px 0px 0px;
+	margin:0px 0px 0px 0px;
+	border:0px solid red;
+	width:698px;
+	height:auto;
+	overflow:hidden;
+}
+.reply_dnam {
+	clear:both;
+	width:100%;
+	height:auto;
+	padding:0px 0px 0px 0px;
+	margin:0px 0px 0px 0px;
+	border-bottom:0px solid #F2F2F2;
+	float:left;
+	background-color:none;
+}
+.reply_subject {
+	clear:both;
+	width:100%;
+	height:auto;
+	color:#333;
+	padding:0px 0px 0px 10px;
+	margin:0px 0px 0px 0px;
+	border-bottom:1px solid #F2F2F2;
+	float:left;
+	font-weight:bold;
+	font-size:24px;
+	background-color:none;
+}
+.showforward {
+	vertical-align:middle;
+	padding:0px 0px 0px 5px;
+	float:left;
+	border:0px solid red;
+	background-image:url(/images/forward.gif);
+	background-repeat:no-repeat;
+	margin-left:0px;
+	background-position: 0px 5px;
+	overflow:hidden;
+	list-style:none;
+}
+.showreply {
+	vertical-align:middle;
+	padding:0px 0px 0px 5px;
+	float:left;
+	border:0px solid red;
+	background-image:url(/images/reply_1.gif);
+	background-repeat:no-repeat;
+	margin-left:0px;
+	background-position: 0px 5px;
+	overflow:hidden;
+	list-style:none;
+}
+.n_reply {
+	width:500px;
+	font-size:12px;
+	font-weight:bold;
+	color:#516797;
+	padding:10px 0px 0px 10px;
+	margin:0px;
+	overflow:hidden;
+	float:left;
+	border:0px solid red;
+}
+.rep_date {
+	width:auto;
+	height:auto;
+	padding-top:10px;
+	padding-bottom:10px;
+	padding-left:40px;
+	margin:0px 0px 0px 0px;
+	overflow:hidden;
+	border:0px solid red;
+	line-height:18px; text-align:right; padding-right:5px;
+}
+.reply_dnam2 {
+	width:98%;
+	text-align:justify;
+	height:auto;
+	padding:0px 10px 20px 10px;
+	margin:0px 0px 0px 0px;
+	float:left;
+	overflow:hidden;
+}
+.responsedis {
+	border:1px solid #AFD6E4;
+	width:948px;
+	height:20px;
+	margin:0px 0px 10px 0px;
+	padding:0px 0px 0px 0px;
+	overflow:hidden;
+	background-color:none;
+	color:#FCAC21;
+	font-weight:bold;
+	font-size:12px;
+	text-align:center;
+}
+.responsetwo {
+	border:1px solid #AFD6E4;
+	width:948px;
+	height:20px;
+	margin:0px 0px 0px 0px;
+	padding:0px 0px 0px 0px;
+	overflow:hidden;
+	background-color:none;
+	color:#FCAC21;
+	font-weight:bold;
+	font-size:12px;
+	text-align:center;
+}
+.reply_options {
+	padding:0px;
+	margin:0px;
+	height:auto;
+	width:100%;
+	overflow:hidden;
+	border-bottom:1px solid #DADFEB;/*background-color:#CFE6EF;*/
+}
+.reply_options ul {
+	padding-left:10px;
+	margin:0px;
+	list-style-type:none;
+	overflow:hidden;
+	border:0px solid red;
+}
+.reply_options li {
+	padding:0px;
+	margin:0px;
+	float:left;
+	line-height:19px;
+	overflow:hidden;
+}

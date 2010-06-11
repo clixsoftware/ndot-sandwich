@@ -1,0 +1,289 @@
+
+/*tab*/
+
+
+.shadetabs{
+height:22px;
+width:500px;
+padding: 0px 0px 0px 0px;
+margin-left: 0;
+
+margin-bottom: 0;
+
+list-style-type: none;
+overflow:hidden;
+ 
+ 
+}
+.shadetabs ul{
+width:200px;
+list-style:none;
+overflow:hidden;
+height:22px;
+overflow:hidden;
+margin: 0px;
+padding:0px;
+ 
+
+}
+
+
+
+
+/*tab2*/
+
+
+ 
+.t_left3 ,.t_left3 a , .t_left3 a:hover ,.t_left3 a.selected 
+
+{
+width:70px;;height:24px;
+float: left;
+margin: 0;
+overflow:hidden;
+padding: 0;
+
+}
+
+.t_left3   {
+ 
+ 
+background-image:url(../images/events_b.jpg);
+background-image:url(../images/news_b.jpg);
+
+ 
+	 
+}
+.t_left3  a {
+
+	 background-image:url(../images/news_b.jpg);
+	text-decoration:none;padding:7px 0px 0px 7px;
+}
+
+.t_left3 a:hover {
+
+ 
+	 background-image:url(../images/news_a.jpg);
+	 
+
+}
+
+
+
+.t_left3 a.selected{ /*selected main tab style */
+padding: 7px  0px 0px 7px ;
+ 
+background-image:url(../images/news_b.jpg);
+
+background-repeat:no-repeat;
+
+}
+
+.t_left3 a.selected:hover{ /*selected main tab style */
+background-image:url(../images/news_b.jpg);
+text-decoration: none;
+} 
+
+
+ 
+ .t_right3  ,.t_right3 a ,.t_right3  a:hover ,.t_right3 a.selected
+
+{
+width:74px;height:24px;
+float: left;
+margin: 0;
+overflow:hidden;
+padding: 0;
+
+}
+
+.t_right3   {
+
+	 
+	background-image:url(../images/events_b.jpg);
+}
+.t_right3  a {
+
+ 
+	background-image:url(../images/events.jpg);
+	text-decoration:none;padding:7px 0px 0px 7px;
+}
+
+.t_right3 a:hover {
+
+	 
+	background-image:url(../images/events.jpg);
+	text-decoration:none;padding:7px 0px 0px 7px;
+
+}
+
+
+
+.t_right3 a.selected{ /*selected main tab style */
+padding: 7px 0px 0px 7px ;
+background-image:url(../images/events_b.jpg);
+ 
+background-repeat:no-repeat;
+
+}
+
+.t_right3 a.selected:hover{ /*selected main tab style */
+text-decoration: none;	
+} 
+
+/*tab2finish*/
+
+/* event tabs start */
+
+.t_left4 ,.t_left4 a , .t_left4 a:hover ,.t_left4 a.selected 
+
+{
+width:48px;height:21px;
+float: left;
+ 
+overflow:hidden;
+ 
+ 
+
+}
+
+ 
+.t_left4  a {
+
+	 background-image:url(../images/all.jpg);background-repeat:no-repeat;
+	text-decoration:none;padding:7px 0px 0px 7px;outline:none;
+ 
+}
+
+.t_left4 a:hover {
+background-repeat:no-repeat;outline:none;
+ 
+	 background-image:url(../images/all.jpg);
+	 
+
+}
+
+
+
+.t_left4 a.selected{ /*selected main tab style */
+padding: 10px  0px 0px  0px ;
+ 
+background-image:url(../images/all_h.jpg);outline:none;
+
+background-repeat:no-repeat;
+
+}
+
+.t_left4 a.selected:hover{ /*selected main tab style */
+background-image:url(../images/all_h.jpg);
+text-decoration: none;background-repeat:no-repeat;outline:none;
+} 
+
+
+ 
+ .t_right4  ,.t_right4 a ,.t_right4  a:hover ,.t_right4 a.selected
+
+{
+width:77px;height:21px;
+float: left;
+ 
+overflow:hidden;
+padding: 0;outline:none;
+ 
+ margin:0px 0px 0px 0px;
+ 
+}
+
+.t_right4   {
+
+	 width:83px;background-repeat:no-repeat;
+	background-image:url(../images/upcoming_h.jpg); 
+}
+.t_right4  a {
+
+ 
+	background-image:url(../images/upcoming.jpg);
+	text-decoration:none;padding:10px  0px 0px  0px;
+	background-repeat:no-repeat;
+}
+
+.t_right4 a:hover {
+
+	 
+	background-image:url(../images/upcoming.jpg);background-repeat:no-repeat;
+	text-decoration:none;padding:10px 0px 0px  0px; 
+
+}
+
+
+
+.t_right4 a.selected{ /*selected main tab style */
+padding: 10px 0px 0px  0px ;
+background-image:url(../images/upcoming_h.jpg); 
+ 
+background-repeat:no-repeat;
+
+}
+
+.t_right4 a.selected:hover{ /*selected main tab style */
+text-decoration: none;	background-repeat:no-repeat;
+} 
+
+
+
+
+
+
+
+.t_right5  ,.t_right5 a ,.t_right5  a:hover ,.t_right5 a.selected
+
+{
+width:68px;height:21px;
+float: left;
+margin: 0;
+overflow:hidden;
+ 
+ 
+ 
+ 
+
+}
+
+.t_right5   {
+
+	 
+	background-image:url(../images/past_h.jpg);background-repeat:no-repeat;
+}
+.t_right5  a {
+
+ 
+	background-image:url(../images/past.jpg);
+	text-decoration:none;padding:10px  0px 0px  0px;background-repeat:no-repeat;
+}
+
+.t_right5 a:hover {
+
+	 
+	background-image:url(../images/past.jpg);
+	text-decoration:none;padding:10px 0px 0px  0px;background-repeat:no-repeat;
+
+}
+
+
+
+.t_right5 a.selected{ /*selected main tab style */
+padding: 10px 0px 0px  0px ;
+background-image:url(../images/past_h.jpg);
+ 
+background-repeat:no-repeat;background-repeat:no-repeat;
+
+}
+
+.t_right5 a.selected:hover{ /*selected main tab style */
+text-decoration: none;	
+} 
+
+
+/* event tabs end */
+
+
