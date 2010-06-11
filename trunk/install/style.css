@@ -1,0 +1,22 @@
+body{margin:0px; padding:0px; font-family:Arial, Helvetica, sans-serif;  }
+ 
+.instal_outer{ width:960px; margin:0px auto; overflow:hidden;}
+.instal_logo{ width:387px; margin:30px 0px 20px 0px; background:url(../public/images/ndot_installogo.jpg);  overflow:hidden; height:37px;}
+.instal_inner{ width:954px; margin:0px auto; overflow:hidden; border:1px solid #DCDCDC; padding:2px; padding-bottom:20px;}
+.instal_inner h1{   margin:0px auto; padding:0px 0px 5px 10px; overflow:hidden; font-family:Tahoma; font-weight: normal; background:#DCDCDC; font-size:28px;  }
+.instal_inner p{  margin:0px auto;margin-bottom:20px; padding: 20px 10px 10px 10px; line-height:20px;   overflow:hidden; font-family:Tahoma; font-weight: normal;   font-size:14px;  }
+.mauto{ margin:0px !important;   text-align:center; border-top:#DCDCDC 1px solid;  overflow:hidden; padding:15px !important; font-size:17px!important;margin-bottom: 0px!important;}
+
+.instal_inner .table1{border:1px solid #DCDCDC; background:#EDEDED;   padding:15px;margin-top:10px;padding-bottom:5px;}
+.instal_inner .table1 td{  color:#AB1212; font-size:13px; font-weight:bold;background:#EDEDED; padding:15px; padding-bottom:5px; }
+.ins_next{  float:left; margin:20px 0px 20px 0px;}
+.ins_next input{ height:28px; width:82px;float:left; border:solid #7A7A7A; background:url(../public/images/install_next.jpg); border:0px; cursor:pointer; }
+.instal_footer{ color:#2F2F2F; font-size:13px; text-align:right; margin-top:10px;	}
+.instal_inner form{ padding:0px; margin:0px;}
+
+.instal_inner .table2{  background:#fff;   margin-top:20px;  }
+.instal_inner .table2 td{  color:#000; font-size:13px; font-weight:bold;  padding: 5px; } 
+.instal_inner .step2tex{    border-top:1px solid #7A7A7A; background:#E8E8E8; border-right:1px solid #7A7A7A; width:196px;}
+.reset{ width:82px; height:28px;  background:url(../public/images/instal_reset.gif); margin-left:20px;}
+.next { width:82px; height:28px;  background:url(../public/images/install_next.jpg);}
+.ins_stept{ border-bottom:1px solid #ccc;}
