@@ -1,0 +1,3 @@
+<a href="<?php echo $this->docroot;?>profile/index/<?php echo $this->prof_uid;?>"/> <img  style="border:1px solid #ccc; padding:5px; " src="<?php echo $this->docroot;?>public/user_photo/50/<?php echo $this->prof_uid;?>.jpg"  alt="<?php echo $this->prof_uname;?>" title="<?php echo $this->prof_uname; ?>" onerror="this.src='<?php echo $this->docroot;?>public/images/no_image11.jpg';"/> </a>
+<!-- display user name -->
+<strong><font size="3" color=blue> <a href="<?php echo $this->docroot;?>profile/index/<?php echo $this->prof_uid; ?>"> <?php echo ucfirst($this->prof_uname); ?></a> </font></strong>

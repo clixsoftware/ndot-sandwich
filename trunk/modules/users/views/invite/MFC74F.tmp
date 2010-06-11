@@ -1,0 +1,17 @@
+<script src="<?php echo $this->docroot;?>public/js/tiny_mce/tiny_mce.js"></script>
+<script src="<?php echo $this->docroot;?>public/js/editor_script.js"></script>
+<script src="<?php echo $this->docroot;?>public/js/mul_email_validate.js"></script>
+<!-- common validations -->
+    <div style="width:760px;margin-left:9px;"    >
+    <h3>Common friends invite</h3>
+    <form name="send_email" method="post" action="/users/general_invite" onSubmit="return checkAll(send_email.to.value)">
+    <input type="hidden" name="invite_type" value="normal">
+    <table border="0" cellpadding="10" cellspacing="10" width="629">
+    <tr><td valign="top">To</td><td><textarea name="to" style="width:500px;"></textarea>*seprate using comma(,)&nbsp;e.g:example@example.com,example@example.com</td></tr>
+    <tr><td>Subject</td><td><input type="text" name="subject" style="width:505px;"></td></tr>
+    <tr><td valign="top">Message</td><td><textarea name="message" style="width:400px;" class="mceEditor"></textarea></td></tr>
+    <tr><td>&nbsp;</td><td>
+    <input type="submit" value="Send"> </td></tr>
+    </table>
+    </form>
+    </div>
