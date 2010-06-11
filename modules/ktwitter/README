@@ -1,0 +1,37 @@
+Kohana Twitter Module
+
+This module aims to create twittwe oauth support under Kohana.
+
+I needed it for one of my projects so I figured it was best to
+pull it out and release it for others to work with.
+
+The existing Kohana Twitter module is very nice - but still
+uses just Basic Auth. I needed OAuth and so required a rebuild.
+
+On top of the basics of the library I have built a method to
+store access keys - so this is completely usable as an login
+method for your websites.
+
+1. License
+
+My code is free to use with no warranty.
+Please bear in minde the OAuth code is from the FireEagle project
+and BSD licensed (http://github.com/myelin/fireeagle-php-lib/).
+
+This package is based around the TwitterOauth example by
+Abraham (http://github.com/abraham/twitteroauth).
+
+2. Usage
+
+Simples. Check out the demo controller for examples of how to
+do the login (hint: it really is stupidly easy)
+
+To get started you need a consumer key/secret from twitter.
+
+Go here: http://twitter.com/oauth_clients
+
+Register your client (use return url of <youurlhere>/twitter_demo/complete)
+and pop the keys into config/twitter.php
+
+Then everything should work as is. Visit twitter_demo/login to
+see it work :D

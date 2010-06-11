@@ -1,0 +1,90 @@
+<?php
+class Update_model_Model extends Model
+{
+
+public function __construct()
+{
+	   $this->session=Session::instance();
+	$this->user_id=$this->session->get('userid');
+	include Kohana::find_file('../application/config','database',TRUE,'php');
+	$this->config = $config ['default'];
+	$this->prefix = $this->config['table_prefix'];
+	$this->usertable = $config['usertable'];
+	$this->uidfield = $config['uidfield'];
+	$this->unamefield = $config['unamefield'];
+	$this->upass = $config['upass'];
+	$this->uemail = $config['uemail'];
+	$this->ustatus = $config['ustatus'];
+	$this->utype = $config['utype'];
+	$this->tempath = $config['tempath'];
+        parent::__construct();
+	$db=new Database();
+}
+
+
+".$this->prefix.$this->usertable."
+
+public function get_recent_answers()
+{
+$result=$this->db->query("select *,users.name as username,question.id as question_id,DATEDIFF(now(),time)as DATE from question left join users on question.user_id=users.id group by question.id desc  ");
+return $result;
+}
+
+// function to insert update from various module
+//function to insert updates
+public function updates_insert($user_id='',$type_id='',$action_id='',$session_id='',$description='')
+{
+$description=html::specialchars($description);
+$result=$this->db->query("INSERT INTO updates (`user_id`, `type_id`, `action_id`, `session_id`, `desc`) VALUES ( '$user_id','$type_id','$action_id','$session_id','$description')");
+return $result;
+}
+
+
+
+
+//to fetch type_id friends details
+public function upd_friend($id)
+{
+$result=$this->db->query("select name,id from users where id=$id");
+return $result;
+}
+
+//function to display updates
+public function updates_list()
+{
+//$result=$this->db->query("select t1.*,t2.mod_id,t2.action_desc,t3.mod_name,t4.name,t4.id as u_id from updates as t1,action as t2,modules as t3,users as t4 where user_id in (SELECT user_id FROM  `user_friend_list` WHERE (friend_id ='$this->user_id' AND STATUS =1 ) UNION SELECT friend_id FROM `user_friend_list` WHERE ( user_id ='$this->user_id' AND STATUS =1 )) and t2.id=t1.action_id and t3.mod_id=t2.mod_id and t4.id=t1.user_id order by date desc");
+ $sql = "select t1.*,datediff(now(),t1.date) as fdate,t2.mod_id,t2.action_desc,t3.mod_name,t4.name,t4.id as u_id,t5.name as typeid_name,t5.id as typeid_id from updates as t1,action as t2,modules as t3,users as t4,users as t5 where user_id in (SELECT user_id FROM  `user_friend_list` WHERE (friend_id ='$this->user_id' AND STATUS =1 ) UNION SELECT friend_id FROM `user_friend_list` WHERE ( user_id ='$this->user_id' AND STATUS =1 )) and t2.id=t1.action_id and t3.mod_id=t2.mod_id and t4.id=t1.user_id and t5.id=t1.type_id order by date desc";
+$result = $this->db->query($sql);
+return $result;
+}
+
+//function to create comments
+public function create_comment($coment,$update_id)
+{
+$user_id=$this->session->get('userid');
+$result=$this->db->query("INSERT INTO `update_comments` (`upd_id` ,`user_id` ,`desc`)VALUES ('$update_id', '$user_id', '$coment')");
+return $result;
+}
+ //function to delete posted comments
+public function delete_comment($id)
+{
+$result=$this->db->query("delete from update_comments where id='$id' ");
+return $result;
+}
+
+//function to display posted comments 
+public function show_upd($id)
+{
+$result=$this->db->query("select t1.*,datediff(now(),t1.date) as fdate,t2.name,t3.user_id as owner_id from update_comments as t1,users as t2,updates as t3  where t1.upd_id=$id and t2.id=t1.user_id and t3.id=t1.upd_id order by date desc");
+return $result;
+}
+
+//function to count comment
+public function comment_count($id)
+{
+$result=$this->db->query("select id  from update_comments  where upd_id=$id ");
+return $result;
+}
+
+}
+?>

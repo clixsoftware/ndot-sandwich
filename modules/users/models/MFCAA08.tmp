@@ -1,0 +1,554 @@
+<?php 
+/**
+ * This profile model will provides the user profile,edit profile,friends list and all update information and friends activities
+ *
+ * @package    Core
+ * @author     Keerthi Venkatesh.V
+ * @copyright  (c) 2010 Ndot.in
+ **/
+class Profile_Model extends Model {
+	public $userid;
+	public function __construct()
+	{
+		include Kohana::find_file('../application/config','database',TRUE,'php');
+		$this->config = $config ['default'];
+		$this->prefix = $this->config['table_prefix'];
+		$this->config=Kohana::config('database.default');
+		$this->prefix = $this->config['table_prefix'];
+		$this->usertable = $config['usertable'];
+		$this->uidfield = $config['uidfield'];
+		$this->unamefield = $config['unamefield'];
+		$this->upass = $config['upass'];
+		$this->uemail = $config['uemail'];
+		$this->ustatus = $config['ustatus'];
+		$this->utype = $config['utype'];
+		$this->session=Session::instance();
+		$this->docroot=$this->session->get('DOCROOT');
+		
+	 	parent::__construct();
+	   	$db=new Database();
+	   	$this->session=Session::instance();
+       	        $this->update=new Update_model_Model();
+		 /*User response messages*/
+		 $mes=Kohana::config('users_config.session_message');
+		 $this->post_wall=$mes["post_wall"];
+		 $this->wall_error=$mes["wall_error"];
+
+
+	}
+	//delete wall
+	public function delete_wall($id)
+	{
+	        $result = $this->db->query("delete from ".$this->prefix."wall where wall_id='$id'");
+	        return $result;
+	}
+	//get the wall
+	public function get_wall($id,$offset,$noofpage)
+	{ 
+	        $result=$this->db->query("select wall_id,poster_id,wall_text,receiver_user_id,name,user_photo,datediff(now(),wall_date) as wall_date from ".$this->prefix."wall left join ".$this->usertable." on ".$this->prefix."wall.poster_id=".$this->usertable.".".$this->uidfield." left join ".$this->prefix."users_profile on ".$this->prefix."wall.poster_id=".$this->prefix."users_profile.user_id where receiver_user_id='$id' AND object_type=1 order by wall_id desc limit $offset,$noofpage ");
+	        return $result;
+	}
+        public function get_wall_few($id)
+	{ 
+	        $result=$this->db->query("select wall_id,poster_id,wall_text,receiver_user_id,name,user_photo,wall_date from ".$this->prefix."wall left join ".$this->usertable." on ".$this->prefix."wall.poster_id=".$this->usertable.".".$this->uidfield." left join ".$this->prefix."users_profile on ".$this->prefix."wall.poster_id=".$this->prefix."users_profile.user_id where receiver_user_id='$id' AND object_type=1 order by wall_id desc limit 0,5 ");
+	        return $result;
+	}
+	//count the walls
+	public function count_wall($id)
+	{
+	        $result=$this->db->query("select wall_id,poster_id,wall_text,receiver_user_id,name,user_photo,datediff(now(),wall_date) as wall_date from ".$this->prefix."wall left join ".$this->usertable." on ".$this->prefix."wall.poster_id=".$this->usertable.".".$this->uidfield." left join ".$this->prefix."users_profile on ".$this->prefix."wall.poster_id=".$this->prefix."users_profile.user_id where receiver_user_id='$id' AND object_type=1 order by wall_id desc ");
+	        return count($result);
+
+	}
+	//get the wall message
+	public function get_profile_wall($id)
+	        {  
+	        $result=$this->db->query("select wall_id,poster_id,wall_text,receiver_user_id,name,user_photo,wall_date from ".$this->prefix."wall left join ".$this->usertable." on ".$this->prefix."wall.poster_id=".$this->usertable.".".$this->uidfield." left join ".$this->prefix."users_profile on ".$this->prefix."wall.poster_id=".$this->prefix."users_profile.user_id where receiver_user_id='$id' AND object_type=1  order by wall_id desc limit 0,5");
+	        return $result;
+	}
+
+	//post the wall
+	public function post_wall($poster_id,$userid,$wall)
+	{ 
+		$wall=html::specialchars($wall);
+		if(!empty($wall))
+		{
+			$result = $this->db->query("insert into ".$this->prefix."wall(poster_id,receiver_user_id,wall_text,wall_date,object_type) values('$poster_id','$userid','$wall',now(),'1')");
+                        $type="wall";
+                        $description='<a href='.$this->docroot.'view?uid='.$userid.'&action=wall>'.$wall.'</a>'; 
+			Nauth::send_mail_id($userid,$poster_id,$type,$description); 
+			Nauth::setMessage(1,$this->post_wall); //set session message using library
+			return $result->insert_id();
+		}
+		else
+		{
+	 		Nauth::setMessage(-1,$this->wall_error); //set session message using library
+		}
+
+	}
+
+	/**
+ 	* Profile Informations 
+	*/
+	public function profile_info($userid)
+	{
+		$select = "select ".$this->unamefield." as name,DATE_FORMAT(`dob`,'%D %b %y') as dobforamt,last_name,country,city,street,post_code,news_letter,phone,mobile,gender,dob,message,".$this->uemail.",cdesc,aboutme, ".$this->usertable.".".$this->uidfield." as id from ".$this->usertable." left join ".$this->prefix."users_profile on ".$this->prefix."users_profile.user_id=".$this->usertable.".".$this->uidfield." left join ".$this->prefix."country on ".$this->prefix."country.cid = ".$this->prefix."users_profile.country left join ".$this->prefix."user_message on ".$this->usertable.".".$this->uidfield." = ".$this->prefix."user_message.id where ".$this->usertable.".".$this->uidfield."='$userid'";
+		 $result = $this->db->query($select);
+		 return $result;
+	}
+	/* get first name from user table */
+	public function profile_fname($userid)
+	{
+	
+		$select = "select name from ".$this->usertable."  where id='$userid' ";
+		 $result = $this->db->query($select);
+		 return $result;
+	}
+	
+	/**
+ 	* Get Users Interest List
+	*/
+	public function get_user_interest($userid='')
+	{
+		 $select = "select * from ".$this->prefix."user_interest_mapping left join ".$this->prefix."user_interest on ".$this->prefix."user_interest_mapping.interest_id=".$this->prefix."user_interest.interest_id where user_id='$userid' ";
+		$result = $this->db->query($select);
+		return $result;
+	}
+	
+	/**
+ 	* Get Country List
+	*/
+	public function get_country()
+	{
+		$select = "select * from ".$this->prefix."country";
+		$result = $this->db->query($select);
+		return $result;
+	}
+	
+	public function get_city()
+	{
+		$select = "select * from ".$this->prefix."city";
+		$result = $this->db->query($select);
+		return $result;
+	}
+	
+	/**
+ 	* Get Interest List
+	*/
+	public function get_interest()
+	{
+		$select = "select * from ".$this->prefix."user_interest";
+		$result = $this->db->query($select);
+		return $result;
+	}
+	
+	/**
+ 	* Get User Privacy details
+	*/
+	public function get_user_privacy($userid='')
+	{
+		$sql="select * from ".$this->prefix."profile_settings where user_id ='$userid'";
+		$exe=$this->db->query($sql);
+		return $exe;
+	}
+	/**
+ 	* Get User module level permission for other users details
+	*/
+	public function get_mod_permission($userid='')
+	{
+		$sql="select * from ".$this->prefix."module_settings where user_id ='$userid'";
+		$exe=$this->db->query($sql);
+		return $exe;
+	}
+	/**
+ 	* set module level permission for other Users 
+	*/
+	public function update_mod_permission($userid,$wall_mod,$update_mod,$profile_mod,$video_mod,$photo_mod)
+	{
+			$sql="select mod_id from ".$this->prefix."module_settings where user_id ='$userid'";
+			$exe=$this->db->query($sql);
+			if(count($exe)>0)
+			{
+				$update = "update ".$this->prefix."module_settings set wall = '$wall_mod' , updates = '$update_mod' , profile = '$profile_mod' , video = '$video_mod' ,photo = '$photo_mod' where user_id = '".$userid."'";
+				$result = $this->db->query($update);
+			}
+	}
+
+
+	/**
+ 	* Update Your Profile 
+	*/
+	public function updateprofile($fname,$lname,$aboutme,$dob,$sex,$street,$city,$country,$code,$phone,$mobile,$news,$email,$userid,$friends='',$activity='',$games='',$dating='')
+	{
+		if($fname!=''  && $dob != ''  && $city != ''  && $code != '' && $news != '' && $email != '' && $userid)
+		{
+		 
+        		$upd = "update ".$this->usertable." set name ='".mysql_escape_string($fname)."'  where id = '".$userid."'";
+        		$res = $this->db->query($upd);
+                        $this->session->set('username',$fname);
+			$update = "update  ".$this->prefix."users_profile set last_name = '".mysql_escape_string($lname)."', aboutme = '".mysql_escape_string($aboutme)."'  , dob = '".mysql_escape_string($dob)."' , gender = '".mysql_escape_string($sex)."' , street = '".mysql_escape_string($street)."' , city = '".mysql_escape_string($city)."' , country = '".mysql_escape_string($country)."' , post_code = '".mysql_escape_string($code)."' , mobile = '".$mobile."' , phone = '".$phone."' , news_letter = '".$news."' where user_id = '".$userid."'";
+			        		
+			$result = $this->db->query($update);
+			$current_session=$this->session->get("session_id");
+        	        $this->update->updates_insert($userid,$userid,2,'Profile');
+			$this->add_edit_interest_mapping($userid,$friends,$activity,$games,$dating);
+			if($result){
+				return 1;
+			}
+			else{
+				return -1;
+			}
+		}
+		else{
+			return -2;
+		}
+	}
+	
+	/**
+ 	* Update Your Privacy settings 
+	*/
+	public function updateprivacy($userid,$birthdayprivacy='',$phoneprivacy='',$mobileprivacy='',$emailprivacy='',$wallprivacy='',$videoprivacy='')
+	{
+			$sql="select prof_id from ".$this->prefix."profile_settings where user_id ='$userid'";
+			$exe=$this->db->query($sql);
+			if(count($exe)>0)
+			{
+				$update = "update ".$this->prefix."profile_settings set email = '$emailprivacy' , dob = '$birthdayprivacy' , phone = '$phoneprivacy' , mobile = '$mobileprivacy' , videos = '$videoprivacy',wall='$wallprivacy' where user_id = '".$userid."'";
+				$result = $this->db->query($update);
+			}
+	}
+
+	/**  Delete Friend **/
+	
+	public function delete_friend($request_id = "", $friend_id = "", $name = "", $userid = "")
+	{						
+		$sql = "select ".$this->unamefield." from ".$this->usertable." where ".$this->uidfield." = ".$friend_id."";
+		$uname = $this->db->query($sql);
+		
+		if(count($uname) > 0){
+			$n = $this->unamefield;
+			if($uname["mysql_fetch_array"]->$n == trim($name)){
+				$row = $this->db->delete("user_friend_list",array("request_id" => $request_id,"user_id" => $friend_id,"friend_id" => $userid, "status" => 1 ));
+				if(count($row) == 0){
+					$row = $this->db->delete("user_friend_list",array("request_id" => $request_id,"friend_id" => $friend_id,"user_id" => $userid, "status" => 1  ));
+				}
+				if(count($row) > 0){
+					return 1;
+				}
+			}
+		}
+		return 0;
+	}
+	
+	/** DELETE INVITE REQUEST **/
+	
+	public function deleteinvites($request_id = "", $friend_id = "" , $user_id = "")
+	{
+			$row = $this->db->delete("user_friend_list",array("request_id" => $request_id,"user_id" => $user_id,"friend_id" => $friend_id, "status" => 0));
+			if(count($row) > 0){
+				return 1;
+			}
+			else{
+				return 0;
+			}
+	}
+
+	/**  FRIENDS ACCEPT / DENY  **/
+
+	public function request_status($request_id = "",$status = "",$friend_id = "",$userid = "")
+	{
+		if($status == 1){
+			$result = $this->db->update("user_friend_list",array("status" => 1 ), array("request_id" => $request_id, "user_id" => $friend_id, "friend_id" => $userid , "status" => 0));
+			if(count($result) > 0){
+				return 1;
+			}
+		}
+		elseif($status == 0){
+
+			$result = $this->db->delete("user_friend_list", array("request_id" => $request_id, "user_id" => $friend_id, "friend_id" => $userid , "status" => 0));
+			if(count($result) > 0){
+				return 0;
+			}
+		}
+		else{
+			return -1;
+		}
+		return -1;
+	}
+	
+	/**
+ 	* List user's details
+	
+	public function list_users($userid)
+	{
+		$query = "select ".$this->uidfield." as id,".$this->unamefield." as name,last_name,country,city,gender,street,".$this->usertable.".".$this->uidfield." as uid,(select friend_id from ".$this->prefix."user_friend_list where user_id=".$this->usertable.".".$this->uidfield." and friend_id='$userid' and status=1) as fid,(select friend_id from ".$this->prefix."user_friend_list where user_id='$userid' and friend_id=".$this->usertable.".".$this->uidfield." and status=1) as zid from ".$this->usertable." left join ".$this->prefix."users_profile on ".$this->usertable.".".$this->uidfield."=".$this->prefix."users_profile.user_id where ".$this->utype." = '1' and ".$this->usertable.".".$this->uidfield." != '$userid' and ".$this->usertable.".".$this->ustatus."=1 order by name ";
+		$result = $this->db->query($query);
+		return $result;
+	}*/
+	
+	/**
+ 	* Friends Request Process send,listing
+	*/
+	public function friends_request($friends_id='',$userid='',$friends_comment='',$status='')
+	{
+		
+		if($friends_id == '' && $friends_comment == '')//for listing friends request in profile
+		{
+		   $query1 = "select ".$this->uidfield." as id,".$this->unamefield." as name,".$this->prefix."user_friend_list.user_id,request_id,comments,city from ".$this->prefix."user_friend_list left join ".$this->usertable." on ".$this->prefix."user_friend_list.user_id=".$this->usertable.".".$this->uidfield." left join ".$this->prefix."users_profile on ".$this->prefix."users_profile.user_id = ".$this->prefix."user_friend_list.friend_id where friend_id = '$userid' and status = '$status' and ".$this->usertable.".".$this->ustatus."=1 ";
+			$result1 = $this->db->query($query1);
+			return $result1;
+		}
+		else
+		{ 
+			$query = "select user_id from ".$this->prefix."user_friend_list where (user_id = '$userid' and friend_id = '$friends_id') or (user_id ='$friends_id'  and friend_id = '$userid') and status = '$status' ";
+			$result = $this->db->query($query);
+			if ($result->count() > 0)//Checking whether already request sent
+			{
+				return -1;
+			}
+			else//insert request
+			{
+			        $friends_comment = html::specialchars($friends_comment);
+				$sql="insert into ".$this->prefix."user_friend_list(user_id,friend_id,status,comments,cd) values ('$userid','$friends_id','0', '$friends_comment' ,now())";
+				$exe=$this->db->query($sql);
+				return 1;
+			}
+		}
+	}
+	
+	/**  GET OPEN INVITES  LIST **/
+	
+	public function openinvites($userid = "", $offset = 0, $noofpage = 10)
+	{
+	
+	
+		/*$request = $this->db->select("request_id","friend_id", $this->unamefield." as name", $this->uidfield." as id","city" )->from("user_friend_list")
+							->join("users_profile","users_profile.user_id","user_friend_list.friend_id")
+							->join($this->usertable,$this->usertable.".".$this->uidfield,"user_friend_list.friend_id")
+							->where(array("user_friend_list.user_id" => $userid, "status" => 0))
+							->orderby("request_id" , "DESC")
+							->limit($noofpage,$offset)
+							->get();      */
+							
+		$select="select request_id,friend_id,city from ".$this->prefix."user_friend_list join ".$this->prefix."users_profile on ".$this->prefix."users_profile.user_id = ".$this->prefix."user_friend_list.friend_id where ".$this->prefix."user_friend_list.user_id = '$userid' AND status=0 order by request_id DESC limit $noofpage,$offset ";
+		$exe = $this->db->query($select);		
+		return $exe;
+	}
+	
+	/**  COUNT OPEN INVITES **/
+	
+	public function openinvites_count($userid = "")
+	{
+
+		/*$request = $this->db->select("request_id")->from("user_friend_list")
+							->join("users_profile","users_profile.user_id","user_friend_list.friend_id")
+							->join($this->usertable,$this->usertable.".".$this->uidfield,"user_friend_list.friend_id")
+							->where(array("user_friend_list.user_id" => $userid, "status" => 0))
+							->get();*/
+							
+		$select="select request_id,friend_id,city from ".$this->prefix."user_friend_list join ".$this->prefix."users_profile on ".$this->prefix."users_profile.user_id = ".$this->prefix."user_friend_list.friend_id where ".$this->prefix."user_friend_list.user_id = $userid and status = 0 ";
+		$request = $this->db->query($select);
+		return $request->count();
+	}
+	
+	public function find_frnd_not($friends_id,$userid,$status)
+	{
+	$query = "select user_id from ".$this->prefix."user_friend_list where (user_id = '$userid' and friend_id = '$friends_id') or (user_id ='$friends_id'  and friend_id = '$userid') ";
+	//echo $query; exit;
+	$result = $this->db->query($query);
+	return $result;
+	}
+	
+	
+	public function friends_request_check($friends_id='',$userid='',$status='')
+	{
+	$query = "select user_id from ".$this->prefix."user_friend_list where (user_id = '$userid' and friend_id = '$friends_id') or (user_id ='$friends_id'  and friend_id = '$userid') and status = '$status' ";
+	
+	$friends_comment="Hi add me as a friend";
+			$result = $this->db->query($query);
+			
+			if ($result->count() > 0)//Checking whether already request sent
+			{
+				return -1;
+			}
+			else
+			{
+			
+			$sql="insert into ".$this->prefix."user_friend_list (user_id,friend_id,status,comments,cd) values ('$userid','$friends_id','0', '$friends_comment' ,now())";
+			$exe=$this->db->query($sql);
+			        return 1;
+			}
+	}
+	
+	
+	/**
+ 		* Fetching My friends list and profile friends list
+	*/
+     public function my_friends($user_id = "", $status = 1,$offset = 0, $noofpage = 10)
+	{ 
+		$sql = "Select ".$this->uidfield." as id,tab.request_id,".$this->unamefield." as name,gender,city from (SELECT user_id,request_id FROM ".$this->prefix."user_friend_list  where (friend_id='$user_id' and status='$status') union SELECT friend_id,request_id FROM ".$this->prefix."user_friend_list  where (user_id='$user_id' and status='$status')) as tab left join ".$this->usertable." on ".$this->usertable.".".$this->uidfield."=tab.user_id left join  ".$this->prefix."users_profile on  ".$this->prefix."users_profile.user_id=tab.user_id where ".$this->usertable.".".$this->ustatus."=1  limit $offset,$noofpage";
+		$exe = $this->db->query($sql); 
+		return $exe;
+	}
+	
+	 public function my_friends_count($user_id = "", $status = 1)
+	 {
+		$sql = "Select ".$this->uidfield." as id from (SELECT user_id,request_id FROM ".$this->prefix."user_friend_list  where (friend_id='$user_id' and status='$status') union SELECT friend_id,request_id FROM ".$this->prefix."user_friend_list  where (user_id='$user_id' and status='$status')) as tab left join ".$this->usertable." on ".$this->usertable.".".$this->uidfield."=tab.user_id left join  ".$this->prefix."users_profile on  ".$this->prefix."users_profile.user_id=tab.user_id where ".$this->usertable.".".$this->ustatus."=1 ";
+		$exe = $this->db->query($sql);
+		
+		return count($exe);
+	}
+	
+	/**
+ 	* Fetching Mutual friends list
+	*/
+     public function mutual_friends($user_id,$friend_id='',$status='')
+	{
+	$sql="select ".$this->uidfield." as id,".$this->unamefield." as name from ".$this->usertable." where ".$this->uidfield." IN(select * from (SELECT (user_id) FROM ".$this->prefix."user_friend_list where (friend_id in ('$user_id','$friend_id') and status='$status') union all SELECT friend_id FROM ".$this->prefix."user_friend_list  where (user_id in ('$user_id','$friend_id') and status='$status')) as tab GROUP BY tab.user_id HAVING COUNT(tab.user_id) > 1) and ".$this->usertable.".".$this->ustatus."=1";
+		$exe=$this->db->query($sql);
+		return $exe;
+	}
+	
+	/**
+ 	* Fetching Friends Suggestion list
+	*/
+        public function suggest_friends($user_id,$status='')
+	{
+		/*
+		 //Mapped with users interest	
+		 $select="select id,name from ".$this->usertable." where ".$this->uidfield." IN(select user_id from ".$this->prefix."user_interest_mapping where interest_id IN(select interest_id from ".$this->prefix."user_interest_mapping where user_id='$user_id') and user_id !='$user_id') and id NOT IN (SELECT user_id FROM ".$this->prefix."user_friend_list where friend_id='$user_id' union all SELECT friend_id FROM ".$this->prefix."user_friend_list where user_id='$user_id')";*/
+		 
+		$select="select ".$this->uidfield." as id,".$this->unamefield." as name from ".$this->usertable." where ".$this->uidfield." IN(select user_id from (SELECT user_id FROM ".$this->prefix."user_friend_list  where friend_id IN(SELECT user_id FROM ".$this->prefix."user_friend_list  where (friend_id='$user_id' and status='$status') union SELECT friend_id FROM ".$this->prefix."user_friend_list  where (user_id='$user_id' and status='$status')) and status=1 union all SELECT friend_id FROM ".$this->prefix."user_friend_list  where user_id IN(SELECT user_id FROM ".$this->prefix."user_friend_list where (friend_id='$user_id' and status='$status') union SELECT friend_id FROM ".$this->prefix."user_friend_list  where (user_id='$user_id' and status='$status')) and status='$status' ) as tab where tab.user_id!='$user_id' GROUP BY tab.user_id HAVING COUNT(tab.user_id) > 1) and ".$this->uidfield." NOT IN (SELECT user_id FROM ".$this->prefix."user_friend_list where friend_id='$user_id' union all SELECT friend_id FROM ".$this->prefix."user_friend_list where user_id='$user_id') and ".$this->usertable.".".$this->ustatus."=1 ";
+		 $exe=$this->db->query($select);
+		 return $exe;
+	}
+	
+	/**
+ 	* Check friends Condition
+	*/
+        public function check_friends($user_id,$friend_id='',$status='')
+	{
+		if($friend_id!=$user_id)
+		{
+			$sql="SELECT request_id FROM ".$this->prefix."user_friend_list where (user_id='$user_id' and friend_id='$friend_id' and status='$status') or(friend_id='$user_id' and user_id='$friend_id' and status='$status')";
+			$exe=$this->db->query($sql);
+			if(count($exe)>0)
+			{
+				return 1;//If friends
+			}
+			else
+			{
+				return 0;//Not friends
+			}
+		}	
+	}
+	
+	
+	/**
+ 	* User Status
+	*/
+	public function user_message($message,$userid)
+	{
+         $current_session=$this->session->get("session_id");
+         $message=html::specialchars($message);
+         $result=$this->db->query("insert into ".$this->prefix."user_message(message,userid,cdate)values('$message','$userid',now())");
+        // $type_id=$result->insert_id();
+         $this->update->updates_insert($userid,$userid,6,$message); 
+            
+         
+	}
+	
+	/**
+ 	* User Interest Mapping
+	*/
+	public function add_edit_interest_mapping($userid,$friends,$activity,$games,$dating)
+	{
+		if(!$userid) return false;
+		if($userid!='')
+		{
+			$sql = "delete FROM ".$this->prefix."user_interest_mapping where user_id = '$userid' ";
+			$this->db->query($sql);
+		}
+		if($friends)
+		{
+			$sql = "insert into ".$this->prefix."user_interest_mapping (user_id,interest_id) values('$userid','$friends')";
+			$this->db->query($sql);
+		}
+		if($activity)
+		{
+			$sql = "insert into ".$this->prefix."user_interest_mapping (user_id,interest_id) values('$userid','$activity')";
+			$this->db->query($sql);
+		}
+		if($games)
+		{
+			$sql = "insert into ".$this->prefix."user_interest_mapping (user_id,interest_id) values('$userid','$games')";
+			$this->db->query($sql);
+		}
+		if($dating)
+		{
+			$sql = "insert into ".$this->prefix."user_interest_mapping (user_id,interest_id) values('$userid','$dating')";
+			$this->db->query($sql);
+		}
+	 	
+	}
+	
+	/**
+ 	* Check Profile Settings
+	*/
+	public function check_profile($userid)
+	{
+		$sql="select * from ".$this->prefix."profile_settings where user_id='$userid'";
+		$exe=$this->db->query($sql);
+/*		foreach($exe as $setting )
+		{
+		echo $settings['email'];exit;
+		}
+*/		return $exe;
+	}
+	
+
+	//users search
+	public function search($search = '' , $userid = '')
+	{
+
+		$query = "select ".$this->uidfield." as id,".$this->unamefield." as name,last_name,user_photo,".$this->prefix."country.cdesc as cdesc,city,gender,street,".$this->usertable.".".$this->uidfield." as uid,(select friend_id from ".$this->prefix."user_friend_list where user_id=".$this->usertable.".".$this->uidfield." and friend_id='$userid' and status=1) as fid,(select friend_id from ".$this->prefix."user_friend_list where user_id='$userid' and friend_id=".$this->usertable.".".$this->uidfield." and status=1) as zid from ".$this->usertable." left join ".$this->prefix."users_profile on ".$this->usertable.".".$this->uidfield."=".$this->prefix."users_profile.user_id left join ".$this->prefix."country on ".$this->prefix."users_profile.country = ".$this->prefix."country.cid where ".$this->utype." != '-1' and ".$this->usertable.".".$this->uidfield." != '$userid' and ".$this->usertable.".".$this->ustatus."=1 ";
+	
+		if($search){
+			$query .= "and (MATCH (name,cdesc,city) AGAINST ('".$search."' IN BOOLEAN MODE))";
+			 //$query .= " and name like '%$search%'";
+		}
+		
+		$result = $this->db->query($query);
+		return $result;
+	}
+	
+	
+	/**
+	 * GET USERS STATUS MESSAGE
+	 */
+	public function get_users_status_message($userid = "" )
+	{
+		$status_message = $this->db->select("message")->from("user_message")
+						->where(array("userid" => $userid))
+						->orderby("id","DESC")
+						->limit(1)
+						->get();
+
+		if($status_message->count() > 0){
+			$message =$status_message->current()->message;
+		}
+		else{
+			$message = "";
+		}
+		return $message;
+	}
+	
+	public function friend_name($fid)
+	{
+                $query = "select * from demo_users where id = '$fid'";
+                $result = $this->db->query($query);
+                return $result;
+        }
+}
+
+?>
