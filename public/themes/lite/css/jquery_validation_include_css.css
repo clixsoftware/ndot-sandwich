@@ -1,0 +1,96 @@
+/* GENERAL ELEMENTS */
+
+
+/* Signup form */
+
+
+
+#form .status {
+  padding-top: 2px;
+  padding-left: 8px;
+  vertical-align: top;
+  width: 246px;
+  white-space: nowrap;
+}
+#forgot .status {
+  padding-top: 2px;
+  padding-left: 8px;
+  vertical-align: top;
+  width: 246px;
+  white-space: nowrap;
+}
+
+
+#form label.error {
+  background:url("/public/images/unchecked.gif") no-repeat 0px 0px;
+  padding-left: 16px;
+  padding-bottom: 2px;
+  font-weight: bold;
+  color: #EA5200;
+}
+#forgot label.error {
+  background:url("/public/images/unchecked.gif") no-repeat 0px 0px;
+  padding-left: 16px;
+  padding-bottom: 2px;
+  font-weight: bold;
+  color: #EA5200;
+}
+
+#form label.checked {
+  background:url("/public/images/checked.gif") no-repeat 0px 0px;
+}
+#forgot label.checked {
+  background:url("/public/images/checked.gif") no-repeat 0px 0px;
+}
+
+#form .success_msg {
+  font-weight: bold;
+  color: #0060BF;
+  margin-left: 19px;
+}
+
+#form #dateformatStatus, #form #termsStatus {
+  margin-left: 6px;
+}
+
+#form #dateformat_eu {
+ vertical-align: middle;
+}
+
+#form #ldateformat_eu {
+  font-weight: normal;
+  vertical-align: middle;
+}
+
+#form #dateformat_am {
+  vertical-align: middle;
+}
+
+#form #ldateformat_am {
+  font-weight: normal;
+  vertical-align: middle;
+}
+
+#form #termswrap {
+  float: left;
+}
+
+#form #terms {
+  vertical-align: middle;
+  float: left;
+  display: block;
+  margin-right: 5px;
+}
+
+#form #lterms {
+  font-weight: normal;
+  vertical-align: middle;
+  float: left;
+  display: block;
+  width: 350px;
+  white-space: normal;
+}
+
+#form #lsignupsubmit {
+  visibility: hidden;
+}
